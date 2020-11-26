@@ -39,7 +39,7 @@ public class FroggerGraphic extends JPanel implements IFroggerGraphics, KeyListe
 		super.paintComponent(g);
 		for (Element e : elementsToDisplay) {
 			g.setColor(e.color);
-			g.fillRect(pixelByCase * e.absc, pixelByCase * (height - 1 - e.ord), pixelByCase, pixelByCase - 1);
+			g.fillRect(pixelByCase * e.x, pixelByCase * (height - 1 - e.y), pixelByCase, pixelByCase - 1);
 		}
 	}
 

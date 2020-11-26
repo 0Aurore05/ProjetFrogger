@@ -7,16 +7,13 @@ public interface IEnvironment {
 	/**
 	 * Teste si une case est sûre, c'est à dire que la grenouille peut s'y poser
 	 * sans mourir
-	 * 
-	 * @param c
-	 *            la case à tester
+	 * @param c la case à tester
 	 * @return vrai s'il n'y a pas danger
 	 */
 	public boolean isSafe(Case c);
 
 	/**
 	 * Teste si la case est une case d'arrivee
-	 * 
 	 * @param c
 	 * @return vrai si la case est une case de victoire
 	 */

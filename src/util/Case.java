@@ -2,15 +2,16 @@ package util;
 
 public class Case {
 
+	public final int x;
+	public final int y;
 
-	//demander si possible de mettre X et Y à la place svp aled
-	public final int absc;
-	public final int ord;
-	
-	public Case(int absc, int ord) {
+	//constructeur(s)------------------------------------
+	public Case(int x, int y) {
 		super();
-		this.absc = absc;
-		this.ord = ord;
+		this.x = x;
+		this.y = y;
 	}
+
+	//méthodes---------------------------------------------
 
 }
