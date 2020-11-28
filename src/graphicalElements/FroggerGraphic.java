@@ -11,20 +11,22 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class FroggerGraphic extends JPanel implements IFroggerGraphics, KeyListener {
-	private ArrayList<Element> elementsToDisplay;
+	private ArrayList<Element> elementsToDisplay;	//elts à afficher
 	private int pixelByCase = 16;
 	private int width;
 	private int height;
 	private IFrog frog;
 	private JFrame frame;
 
+	//constructeur-------------------------------------
 	public FroggerGraphic(int width, int height) {
 		this.width = width;
 		this.height = height;
 		elementsToDisplay = new ArrayList<Element>();
 
-		setBackground(Color.GRAY);
+		setBackground(Color.GRAY);		//fond gris
 		setPreferredSize(new Dimension(width * pixelByCase, height * pixelByCase));
+		//au lieu de width pixels pour la largeur(x), pixelByCase fois plus de pixels
 
 		JFrame frame = new JFrame("Frogger");
 		this.frame = frame;
@@ -34,6 +36,8 @@ public class FroggerGraphic extends JPanel implements IFroggerGraphics, KeyListe
 		frame.setVisible(true);
 		frame.addKeyListener(this);
 	}
+
+	//méthodes---------------------------------------
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -65,18 +69,33 @@ public class FroggerGraphic extends JPanel implements IFroggerGraphics, KeyListe
 		}
 	}
 
+	/**
+	 * Enlève tous les éléments actuellement affichés
+	 */
 	public void clear() {
 		this.elementsToDisplay.clear();
 	}
 
+	/**
+	 * Ajoute l'élément aux éléments à afficher
+	 * @param e
+	 */
 	public void add(Element e) {
 		this.elementsToDisplay.add(e);
 	}
 
+	/**
+	 * Lie la grenouille à l'environneemnt graphique
+	 * @param frog
+	 */
 	public void setFrog(IFrog frog) {
 		this.frog = frog;
 	}
 
+	/**
+	 * Lance un écran de fin de partie
+	 * @param s le texte à afficher
+	 */
 	public void endGameScreen(String s) {
 		frame.remove(this);
 		JLabel label = new JLabel(s);

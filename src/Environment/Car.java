@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import util.Case;
 import gameCommons.Game;
 import graphicalElements.Element;
+import util.Direction;
 
 public class Car {
 
@@ -38,7 +39,7 @@ public class Car {
      * @return x=x-1 si <-- / x=x+1 si -->
      */
     public Case getCaseAhead(){
-        if(leftToRight) return new Case(leftPosition.x+1, leftPosition.y);
+        if(leftToRight) return new Case(leftPosition.x+length, leftPosition.y);
         else return new Case(leftPosition.x-1,leftPosition.y);
     }
     //TODO : l'utiliser pour update
@@ -46,7 +47,7 @@ public class Car {
     /**
      * Fourni : addToGraphics() permettant d'ajouter un element graphique correspondant a la voiture
      */
-    private void addToGraphics() {
+    public void addToGraphics() {
         for (int i = 0; i < length; i++) {
             Color color = colorRtL;
             if (this.leftToRight){
@@ -56,7 +57,7 @@ public class Car {
                     .add(new Element(leftPosition.x + i, leftPosition.y, color));
         }
     }
-    //TODO l'utiliser dans l'update ou le main
+    //TODO l'utiliser dans l'update
 
     /**
      * forme un tableau de toutes les cases occupées par une voiture selon sa taille & leftPosition
@@ -64,12 +65,34 @@ public class Car {
      */
     public ArrayList<Case> getAllCases() {
         ArrayList<Case> res = new ArrayList<>();
-        for(int i = 0; i<=this.getLength(); i++) {
-            Case tmp = this.getLeftPosition();
+        for(int i = 0; i < length; i++) {
+            Case tmp = leftPosition;
             res.add(new Case(tmp.x+i, tmp.y));
         }
         return res;
     }
 
+    /**
+     * bouge la voiture
+     * @param c la nouvelle position de la voiture
+     */
+    private void move(Case c){
+        this.leftPosition = c;
+    }
+
+    public void moveAhead(){
+        if(leftToRight) this.move(this.getCaseAhead());
+        else this.move(this.getCaseAhead());
+
+    }//TODO : l'utiliser dans update de Lane
+
+    /**
+     * teste si la voiture est completement sortie de l'écran
+     * @return true si c'est le cas
+     */
+    public Boolean isOut(){
+        if(leftToRight) return (leftPosition.x-(length-1) > game.width);
+        else return (leftPosition.x+(length-1) < 0);
+    }
 
 }

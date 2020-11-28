@@ -75,7 +75,7 @@ public class Game {
 	 */
 	public boolean testLose() {
 		if(!this.environment.isSafe(this.frog.getPosition())) {
-			//TODO : lancer écran approprié ou juste retourner en bas de l'écran
+			this.graphic.endGameScreen("Vous avez perdu");
 			return true;
 		}
 		return false;
@@ -87,22 +87,21 @@ public class Game {
 	 */
 	public boolean testWin() {
 		if( this.environment.isWinningPosition(this.frog.getPosition()) ){
-			//TODO : lancer écran approprié
+			this.graphic.endGameScreen("Félicitations!");
 			return true;
 		}
 		return false;
 	}
 
+
 	/**
 	 * Actualise l'environnement, affiche la grenouille et verifie la fin de partie
 	 */
 	public void update() {
-		graphic.clear();
-		environment.update();
-		this.graphic.add(new Element(frog.getPosition(), Color.GREEN));
+		graphic.clear();		//pour pas que tout s'accumule dans le temps
+		environment.update();	//update des voitures
+		this.graphic.add(new Element(frog.getPosition(), Color.GREEN)); //update graphique frog
 		testLose();
 		testWin();
 	}
-	//TODO : s'en servir de modèle pour les autres updates
-
 }

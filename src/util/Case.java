@@ -2,10 +2,11 @@ package util;
 
 public class Case {
 
-	public final int x;
-	public final int y;
+	public int x;
+	public int y;
 
 	//constructeur(s)------------------------------------
+
 	public Case(int x, int y) {
 		super();
 		this.x = x;

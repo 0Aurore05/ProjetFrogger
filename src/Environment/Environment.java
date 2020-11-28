@@ -15,9 +15,27 @@ public class Environment implements IEnvironment {
 
     public Environment(Game game){
         this.game = game;
+        this.initLanes();
     }
 
     //méthodes-------------------------------------------------------
+
+    private void initLanes(){
+        this.lanes = new ArrayList<>();
+
+        for(int y = 1; y< game.height-1; y++){ //chaque lane à un Y (sauf pour y=heigth : départ / y=1:arrivée)
+            double rand = (-0.5) + game.randomGen.nextDouble();  //double entre -0.5 et 0.5
+
+            double density = game.defaultDensity+(rand/4);
+
+            boolean leftToRight = rand<0;
+
+            int speed = game.minSpeedInTimerLoops + game.randomGen.nextInt(7); //de 3 à 10
+
+            Lane l = new Lane(y, speed, leftToRight, density);
+            this.lanes.add(l);
+        }
+    }
 
     /**
      * Teste si une case est sûre, c'est à dire que la grenouille peut s'y poser sans mourir
@@ -25,7 +43,6 @@ public class Environment implements IEnvironment {
      * @return vrai s'il n'y a pas danger
      */
     public boolean isSafe(Case c){
-        //méthode douteuse : ArrayList de Lanes
         for(Lane l : this.lanes){
             if(!l.isSafe(c)) return false;
         }
@@ -45,8 +62,10 @@ public class Environment implements IEnvironment {
      * Effectue une étape d'actualisation de l'environnement
      */
     public void update(){
-        //TODO
-        //méthode update() de Lane, qui doit utiliser un update des voitures dans Car jsp
+        for(Lane l : this.lanes){
+            l.update();
+        }
     }
+
 
 }

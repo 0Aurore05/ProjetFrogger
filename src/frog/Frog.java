@@ -5,6 +5,8 @@ import gameCommons.IFrog;
 import util.Case;
 import util.Direction;
 
+import java.util.Scanner;
+
 public class Frog implements IFrog {
 	
 	private Game game;

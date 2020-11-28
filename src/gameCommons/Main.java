@@ -33,7 +33,7 @@ public class Main {
 		//Création et liaison de l'environnement
 		IEnvironment env = new Environment(game);
 		game.setEnvironment(env);
-				
+
 		//Boucle principale : l'environnement s'acturalise tous les tempo milisecondes
 		Timer timer = new Timer(tempo, new ActionListener() {
 			@Override
@@ -42,7 +42,10 @@ public class Main {
 				graphic.repaint();
 			}
 		});
+		//ActionListener : invoquée quand clic de souris / touche entrée
+        //l'interface ActionListener envoie des événements à actionPerformed( )
 		timer.setInitialDelay(0);
 		timer.start();
+
 	}
 }

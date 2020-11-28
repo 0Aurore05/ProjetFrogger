@@ -32,13 +32,18 @@ public class Lane {
      * déplace voitures présentes & en ajoute peutêtre de nouvelles
      */
     public void update() {
-        // TODO
         // Toutes les voitures se déplacent d'une case au bout d'un nombre "tic d'horloge" égal à leur vitesse
         // ---> cette méthode est appelée à chaque tic d'horloge
+        int k = 0;
+        for(Car c : cars){
+            c.addToGraphics();  //voitures ajoutées à l interface graphique même quand ne bougent pas
 
-        // Les voitures doivent être ajoutées à l interface graphique même quand elle ne bougent pas
+            //TODO : if(laps de temps je sais pas) c.moveAhead();
 
-        // A chaque tic d'horloge, une voiture peut être ajoutée
+            if(c.isOut()) cars.remove(k); //enlève la voiture si elle est sortie de l'écran
+            k++;
+        }
+        mayAddCar();         // A chaque tic d'horloge, une voiture peut être ajoutée
     }
 
     /**
@@ -93,7 +98,7 @@ public class Lane {
      * @param c la case à tester
      * @return true si aucune voiture sur cette case
      */
-    public Boolean isSafe(Case c){
+     public Boolean isSafe(Case c){
         return !(this.getCasesCars().containsValue(c));
     }
 
