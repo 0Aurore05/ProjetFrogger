@@ -1,8 +1,6 @@
 package environment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import util.Case;
 import gameCommons.Game;
@@ -17,12 +15,15 @@ public class Lane {
     private boolean leftToRight;                                    //true si sens -> , false si <-
     private double density;                                         //proba qu'une voiture entre sur la voie
 
+    private int tmp = 0;
+
     //constructeur(s)-------------------------------------------------------
-    public Lane(int y, int speed, Boolean leftToRight, double density){
-        this.y=y; this.speed=speed;
+    public Lane(Game game, int y, int speed, Boolean leftToRight, double density){
+        this.game = game;
+        this.y=y;
+        this.speed=speed;
         this.leftToRight=leftToRight;
         this.density=density;
-        this.cars = new ArrayList<environment.Car>();
     }
 
 
@@ -35,12 +36,15 @@ public class Lane {
         // Toutes les voitures se déplacent d'une case au bout d'un nombre "tic d'horloge" égal à leur vitesse
         // ---> cette méthode est appelée à chaque tic d'horloge
         int k = 0;
+        tmp = (tmp+1)%speed;
+        Boolean canMove = tmp==0;
+
         for(Car c : cars){
-            c.addToGraphics();  //voitures ajoutées à l interface graphique même quand ne bougent pas
+            c.addToGraphics();
 
-            //TODO : if(laps de temps je sais pas) c.moveAhead();
+            if(canMove) c.moveAhead();
 
-            if(c.isOut()) cars.remove(k); //enlève la voiture si elle est sortie de l'écran
+            if(c.isOut()) cars.remove(k);
             k++;
         }
         mayAddCar();         // A chaque tic d'horloge, une voiture peut être ajoutée
@@ -53,25 +57,26 @@ public class Lane {
     private void mayAddCar() {
         if (isSafe(getFirstCase()) && isSafe(getBeforeFirstCase())) {
             if (game.randomGen.nextDouble() < density) {
-                cars.add(new environment.Car(game, getBeforeFirstCase(), leftToRight));
+                int length = game.randomGen.nextInt(4)+1;
+                cars.add(new environment.Car(game, getBeforeFirstCase(), leftToRight, length));
             }
         }
     }
 
     /**
      * détermine la première case d'une route selon son sens
-     * @return (0,this.y) si -->  /  (game.width-1, this.y) si <--
+     * @return (0,y) si de gauche à droite  /  (game.width-1,y) si de droite à gauche
      */
     private Case getFirstCase() {
         if (leftToRight) {
-            return new Case(0, y);                //y : celle de la route (this.y)
+            return new Case(0, y);
         } else
-            return new Case(game.width - 1, y);   //car x va de 0 à game.width-1 (j'imagine du coup)
+            return new Case(game.width - 1, y);
     }
 
     /**
      * détermine la -1 ième case d'une route selon son sens (case où se génèrent les voitures avant d'apparaître)
-     * @return (-1, this.y) si --> / (game.width, this.y) si <--
+     * @return (-1,y) si de gauche à droite / (game.width, y) si de droit à gauche
      */
     private Case getBeforeFirstCase() {
         if (leftToRight) {
@@ -83,12 +88,13 @@ public class Lane {
 
     /**
      * forme un tableau 2D entre voitures de la route, et toutes les positions qu'elles occupent
-     * @return HashMap avec key:voiture / value:ArrayList des cases qu'elle occupe
+     * @return ArrayList des cases que toutes les voitures occupent
      */
-    private HashMap<Car, ArrayList<Case>> getCasesCars(){
-        HashMap<Car, ArrayList<Case>> res = new HashMap<>();
-        for(Car i : this.cars){
-            res.put(i, i.getAllCases());
+    private ArrayList<Case> getUnsafeCases(){
+        ArrayList<Case> res = new ArrayList<>();
+        for(Car c : this.cars){
+            for(Case i : c.getAllCases() )
+            res.add(i);
         }
         return res;
     }
@@ -98,8 +104,10 @@ public class Lane {
      * @param c la case à tester
      * @return true si aucune voiture sur cette case
      */
-     public Boolean isSafe(Case c){
-        return !(this.getCasesCars().containsValue(c));
-    }
-
+     public Boolean isSafe(Case c) {
+         for (Case i : this.getUnsafeCases()) {
+             if(i.equals(c)) return false;
+         }
+         return true;
+     }
 }

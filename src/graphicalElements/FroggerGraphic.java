@@ -78,7 +78,7 @@ public class FroggerGraphic extends JPanel implements IFroggerGraphics, KeyListe
 
 	/**
 	 * Ajoute l'élément aux éléments à afficher
-	 * @param e
+	 * @param e l'élément
 	 */
 	public void add(Element e) {
 		this.elementsToDisplay.add(e);
@@ -86,7 +86,7 @@ public class FroggerGraphic extends JPanel implements IFroggerGraphics, KeyListe
 
 	/**
 	 * Lie la grenouille à l'environneemnt graphique
-	 * @param frog
+	 * @param frog la grenouille
 	 */
 	public void setFrog(IFrog frog) {
 		this.frog = frog;

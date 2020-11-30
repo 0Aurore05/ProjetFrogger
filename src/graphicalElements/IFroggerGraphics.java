@@ -6,7 +6,7 @@ public interface IFroggerGraphics {
 	
 	/**
 	 * Ajoute l'élément aux éléments à afficher
-	 * @param e
+	 * @param e l'élément
 	 */
     public void add(Element e);
     
@@ -22,7 +22,7 @@ public interface IFroggerGraphics {
     
     /**
      * Lie la grenouille à l'environneemnt graphique
-     * @param frog
+     * @param frog la grenouille
      */
     public void setFrog(IFrog frog);
     

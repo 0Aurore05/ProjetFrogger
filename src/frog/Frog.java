@@ -5,8 +5,6 @@ import gameCommons.IFrog;
 import util.Case;
 import util.Direction;
 
-import java.util.Scanner;
-
 public class Frog implements IFrog {
 	
 	private Game game;
@@ -16,34 +14,35 @@ public class Frog implements IFrog {
     //constructeur------------------------------------------------
     public Frog(Game game){
         this.game = game;
+        this.caseFrog = new Case(this.game.width/2, 0);
     }
 
     //méthodes----------------------------------------------------
     /**
      * Donne la position actuelle de la grenouille
-     * @return
+     * @return sa case
      */
     public Case getPosition(){
         return this.caseFrog;
     }
     /**
      * Donne la direction de la grenouille, c'est à dire de son dernier mouvement
-     * @return
+     * @return sa direction
      */
     public Direction getDirection(){
         return this.direction;
     }
 
     /**
-     * ddétermine la case devant la grenouille % direction
+     * ddétermine la case devant la grenouille % sa direction
      * @return la case devant
      */
     private Case getCaseAhead(){
         switch (direction) {
             case up:
-                if(caseFrog.y>0) return new Case(caseFrog.x, caseFrog.y-1);
+                if(caseFrog.y<game.height) return new Case(caseFrog.x, caseFrog.y+1);
             case down:
-                if(caseFrog.y<game.height-1) return new Case(caseFrog.x, caseFrog.y+1);
+                if(caseFrog.y>0) return new Case(caseFrog.x, caseFrog.y-1);
             case left:
                 if(caseFrog.x>0) return new Case(caseFrog.x-1, caseFrog.y);
             case right:
@@ -54,12 +53,13 @@ public class Frog implements IFrog {
 
     /**
      * Déplace la grenouille dans la direction donnée et teste la fin de partie
-     * @param key
+     * @param key sa direction
      */
     public void move(Direction key){
         direction = key;
         caseFrog = getCaseAhead();
-        //if ... == isWinningPosition() ...
+        if(this.game.testWin()) this.game.getGraphic().endGameScreen("Félicitation");
+        else if(this.game.testLose()) this.game.getGraphic().endGameScreen("Vous avez perdu");
     }
 
 }

@@ -48,7 +48,7 @@ public class Game {
 
 	/**
 	 * Lie l'objet frog à la partie
-	 * @param frog
+	 * @param frog la grenouille
 	 */
 	public void setFrog(IFrog frog) {
 		this.frog = frog;
@@ -56,7 +56,7 @@ public class Game {
 
 	/**
 	 * Lie l'objet environment à la partie
-	 * @param environment
+	 * @param environment l'environnement
 	 */
 	public void setEnvironment(IEnvironment environment) {
 		this.environment = environment;
