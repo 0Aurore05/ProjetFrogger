@@ -44,7 +44,7 @@ public class Lane {
 
             if(canMove) c.moveAhead();
 
-            if(c.isOut()) cars.remove(k);
+            //if(c.isOut()) cars.remove(k);
             k++;
         }
         mayAddCar();         // A chaque tic d'horloge, une voiture peut être ajoutée
@@ -57,7 +57,7 @@ public class Lane {
     private void mayAddCar() {
         if (isSafe(getFirstCase()) && isSafe(getBeforeFirstCase())) {
             if (game.randomGen.nextDouble() < density) {
-                int length = game.randomGen.nextInt(4)+1;
+                int length = game.randomGen.nextInt(3);
                 cars.add(new environment.Car(game, getBeforeFirstCase(), leftToRight, length));
             }
         }
@@ -80,9 +80,9 @@ public class Lane {
      */
     private Case getBeforeFirstCase() {
         if (leftToRight) {
-            return new Case(-1, y);
+            return new Case(-2, y);
         } else
-            return new Case(game.width, y);
+            return new Case(game.width+1, y);
     }
 
 

@@ -20,19 +20,20 @@ public class Environment implements IEnvironment {
 
     //méthodes-------------------------------------------------------
 
-    private void initLanes(){
+    /**
+     * initie aléatoirement les paramètres de toutes les Lanes de l'env
+     */
+    public void initLanes(){
         this.lanes = new ArrayList<>();
 
         for(int y = 1; y< game.height-1; y++){ //chaque lane à un Y (sauf pour y=heigth : départ / y=1:arrivée)
             double rand = (-0.5) + game.randomGen.nextDouble();  //double entre -0.5 et 0.5
 
             double density = game.defaultDensity+(rand/4);
-
             boolean leftToRight = rand<0;
+            int speed = game.minSpeedInTimerLoops + game.randomGen.nextInt(8); //de 3 à 10
 
-            int speed = game.minSpeedInTimerLoops + game.randomGen.nextInt(7); //de 3 à 10
-
-            Lane l = new Lane(y, speed, leftToRight, density);
+            Lane l = new Lane(this.game, y, speed, leftToRight, density);
             this.lanes.add(l);
         }
     }
@@ -51,11 +52,11 @@ public class Environment implements IEnvironment {
 
     /**
      * Teste si la case est une case d'arrivee
-     * @param c
+     * @param c la case à tester
      * @return vrai si la case est une case de victoire
      */
     public boolean isWinningPosition(Case c){
-        return (c.y == 0 );
+        return (c.y == game.height-1 );
     }
 
     /**

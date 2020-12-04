@@ -1,13 +1,11 @@
 package environment;
 
 import java.awt.Color;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import util.Case;
 import gameCommons.Game;
 import graphicalElements.Element;
-import util.Direction;
 
 public class Car {
 
@@ -18,11 +16,13 @@ public class Car {
     private final Color colorLtR = Color.BLACK;     //couleur: black si ->
     private final Color colorRtL = Color.BLUE;      //couleur: blue si <-
 
+
     //constructeur(s)-------------------------------------------------------
-    public Car(Game game, Case leftPosition, boolean leftToRight){
+    public Car(Game game, Case leftPosition, boolean leftToRight, int length){
         this.game = game;
         this.leftPosition = leftPosition;
         this.leftToRight = leftToRight;
+        this.length = length;
     }
 
     //méthodes----------------------------------------------------------------
@@ -36,13 +36,12 @@ public class Car {
 
     /**
      * détermine case devant la voiture selon sens de marche
-     * @return x=x-1 si <-- / x=x+1 si -->
+     * @return la case devant en tenant compte de sa taille
      */
     public Case getCaseAhead(){
         if(leftToRight) return new Case(leftPosition.x+length, leftPosition.y);
         else return new Case(leftPosition.x-1,leftPosition.y);
     }
-    //TODO : l'utiliser pour update
 
     /**
      * Fourni : addToGraphics() permettant d'ajouter un element graphique correspondant a la voiture
@@ -57,10 +56,9 @@ public class Car {
                     .add(new Element(leftPosition.x + i, leftPosition.y, color));
         }
     }
-    //TODO l'utiliser dans l'update
 
     /**
-     * forme un tableau de toutes les cases occupées par une voiture selon sa taille & leftPosition
+     * forme un tableau de toutes les cases occupées par une voiture selon sa taille & sa position la + à gauche
      * @return ArrayList de ses cases occupées
      */
     public ArrayList<Case> getAllCases() {
@@ -76,15 +74,13 @@ public class Car {
      * bouge la voiture
      * @param c la nouvelle position de la voiture
      */
-    private void move(Case c){
+    public void move(Case c){
         this.leftPosition = c;
     }
 
     public void moveAhead(){
-        if(leftToRight) this.move(this.getCaseAhead());
-        else this.move(this.getCaseAhead());
-
-    }//TODO : l'utiliser dans update de Lane
+        this.move(this.getCaseAhead());
+    }
 
     /**
      * teste si la voiture est completement sortie de l'écran
