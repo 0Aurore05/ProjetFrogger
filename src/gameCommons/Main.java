@@ -17,9 +17,9 @@ public class Main {
 		//Caractéristiques du jeu
 		int width = 26;						//largeur du jeu (x)
 		int height = 20;					//hauteur du jeu (y)
-		int tempo = 200;					//
+		int tempo = 150;					//
 		int minSpeedInTimerLoops = 1;		//
-		double defaultDensity = 0.15;		//
+		double defaultDensity = 0.08;		//
 
 		//-----------------------------------------------------------------------
 		//Création de l'interface graphique

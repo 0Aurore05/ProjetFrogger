@@ -58,8 +58,8 @@ public class Frog implements IFrog {
     public void move(Direction key){
         direction = key;
         caseFrog = getCaseAhead();
-        if(this.game.testWin()) this.game.getGraphic().endGameScreen("Félicitation");
-        else if(this.game.testLose()) this.game.getGraphic().endGameScreen("Vous avez perdu");
+        this.game.testWin() ;
+        this.game.testLose() ;
     }
 
 }

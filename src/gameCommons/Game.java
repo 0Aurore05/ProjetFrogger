@@ -75,7 +75,7 @@ public class Game {
 	 */
 	public boolean testLose() {
 		if(!this.environment.isSafe(this.frog.getPosition())) {
-			this.graphic.endGameScreen("Vous avez perdu");
+			graphic.endGameScreen("Vous avez perdu");
 			return true;
 		}
 		return false;
@@ -86,8 +86,8 @@ public class Game {
 	 * @return true si la partie est gagnée
 	 */
 	public boolean testWin() {
-		if( this.environment.isWinningPosition(this.frog.getPosition()) ){
-			this.graphic.endGameScreen("Félicitations!");
+		if( this.environment.isWinningPosition(this.frog.getPosition())){
+			graphic.endGameScreen("Félicitation!");
 			return true;
 		}
 		return false;
