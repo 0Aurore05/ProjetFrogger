@@ -1,36 +1,40 @@
 package frog;
 
 import gameCommons.Game;
-import gameCommons.IFrog;
 import util.Case;
 import util.Direction;
 
-public class Frog implements IFrog {
-	
-	private Game game;
+public class FrogInf {
+
+    public Game game;
     private Direction direction;
     private Case caseFrog;
 
+    private int score = 0;
+
     //constructeur------------------------------------------------
-    public Frog(Game game){
+    public FrogInf(Game game){
         this.game = game;
         this.caseFrog = new Case(this.game.width/2, 0);
     }
 
+
     //méthodes----------------------------------------------------
+
     /**
-     * Donne la position actuelle de la grenouille
-     * @return sa case
+     *
+     * @return la position de la grenouille
      */
     public Case getPosition(){
         return this.caseFrog;
     }
+
     /**
-     * Donne la direction de la grenouille, c'est à dire de son dernier mouvement
-     * @return sa direction
+     *
+     * @return le score de la grenouille
      */
-    public Direction getDirection(){
-        return this.direction;
+    public int getScore(){
+        return this.score;
     }
 
     /**
@@ -39,10 +43,6 @@ public class Frog implements IFrog {
      */
     private Case getCaseAhead(){
         switch (direction) {
-            case up:
-                if(caseFrog.y<game.height) return new Case(caseFrog.x, caseFrog.y+1);
-            case down:
-                if(caseFrog.y>0) return new Case(caseFrog.x, caseFrog.y-1);
             case left:
                 if(caseFrog.x>0) return new Case(caseFrog.x-1, caseFrog.y);
             case right:
@@ -52,13 +52,19 @@ public class Frog implements IFrog {
     }
 
     /**
-     * Déplace la grenouille dans la direction donnée et teste la fin de partie
+     * Déplace la grenouille dans la direction donnée et déroule l'écran si besoin
      * @param key sa direction
      */
     public void move(Direction key){
         direction = key;
+
+        if(direction == Direction.up) {
+            score++;
+            this.game.getEnv().lanesDown();
+            this.game.getEnv().addLane();
+        }
+
         caseFrog = getCaseAhead();
-        //this.game.testWin() ;
         this.game.testLose() ;
     }
 

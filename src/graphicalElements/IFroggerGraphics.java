@@ -1,6 +1,7 @@
 package graphicalElements;
 
-import gameCommons.IFrog;
+import frog.FrogInf;
+//import gameCommons.IFrog;
 
 public interface IFroggerGraphics {
 	
@@ -24,8 +25,9 @@ public interface IFroggerGraphics {
      * Lie la grenouille à l'environneemnt graphique
      * @param frog la grenouille
      */
-    public void setFrog(IFrog frog);
-    
+    public void setFrog(FrogInf frog);
+    //public void setFrog(IFrog frog);
+
     /**
      * Lance un écran de fin de partie
      * @param message le texte à afficher

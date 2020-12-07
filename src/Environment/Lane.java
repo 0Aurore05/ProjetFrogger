@@ -9,45 +9,52 @@ import gameCommons.Game;
 public class Lane {
 
     private Game game;
-    private int y;                                                  //position de la voie
-    private int speed;                                              //vitesse des voitures de la voie
-    private ArrayList<environment.Car> cars = new ArrayList<>();    //array des voitures qui s'y trouvent
-    private boolean leftToRight;                                    //true si sens -> , false si <-
-    private double density;                                         //proba qu'une voiture entre sur la voie
+    private int y;
+    private int speed;
+    private ArrayList<environment.Car> cars = new ArrayList<>();
+    private boolean leftToRight;
+    private double density;
 
     private int tmp = 0;
 
-    //constructeur(s)-------------------------------------------------------
+    //constructeur --------------------------------------------------------
     public Lane(Game game, int y, int speed, Boolean leftToRight, double density){
         this.game = game;
         this.y=y;
         this.speed=speed;
         this.leftToRight=leftToRight;
         this.density=density;
+        initCars();
     }
 
 
     //méthodes---------------------------------------------------------------
 
     /**
+     * initie les voitures sur la Lane avant le début de la partie
+     */
+    public void initCars(){
+        for(int x=0; x< game.width; x++){
+            if (game.randomGen.nextDouble() < density) {
+                int length = game.randomGen.nextInt(2)+1; //de 1 à 2
+                cars.add(new environment.Car(game, new Case(x, y), leftToRight, length));
+            }
+        }
+    }
+
+    /**
      * déplace voitures présentes & en ajoute peutêtre de nouvelles
      */
     public void update() {
-        // Toutes les voitures se déplacent d'une case au bout d'un nombre "tic d'horloge" égal à leur vitesse
-        // ---> cette méthode est appelée à chaque tic d'horloge
-        int k = 0;
         tmp = (tmp+1)%speed;
         Boolean canMove = tmp==0;
 
         for(Car c : cars){
             c.addToGraphics();
-
             if(canMove) c.moveAhead();
-
-            //if(c.isOut()) cars.remove(k);
-            k++;
         }
-        mayAddCar();         // A chaque tic d'horloge, une voiture peut être ajoutée
+
+        mayAddCar();
     }
 
     /**
@@ -57,7 +64,7 @@ public class Lane {
     private void mayAddCar() {
         if (isSafe(getFirstCase()) && isSafe(getBeforeFirstCase())) {
             if (game.randomGen.nextDouble() < density) {
-                int length = game.randomGen.nextInt(3);
+                int length = game.randomGen.nextInt(2)+1;
                 cars.add(new environment.Car(game, getBeforeFirstCase(), leftToRight, length));
             }
         }
@@ -84,8 +91,7 @@ public class Lane {
         } else
             return new Case(game.width+1, y);
     }
-
-
+    
     /**
      * forme un tableau 2D entre voitures de la route, et toutes les positions qu'elles occupent
      * @return ArrayList des cases que toutes les voitures occupent
@@ -106,8 +112,19 @@ public class Lane {
      */
      public Boolean isSafe(Case c) {
          for (Case i : this.getUnsafeCases()) {
-             if(i.equals(c)) return false;
+             if(i.x == c.x && i.y == c.y) return false;
          }
          return true;
      }
+
+    /**
+     * baisse le y de la Lane à y-1
+     */
+    public void moveDown(){
+        this.y--;
+        for(Car c : this.cars){
+            c.carDown();
+        }
+    }
+
 }

@@ -2,7 +2,6 @@ package graphicalElements;
 import java.awt.*;
 import util.Case;
 
-//permet d'ajouter des couleurs aux cases
 
 public class Element extends Case {
 

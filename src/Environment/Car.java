@@ -10,11 +10,11 @@ import graphicalElements.Element;
 public class Car {
 
     private Game game;
-    private Case leftPosition;                      //case from laquelle la taille est calculée (la case la plus à gauche)
-    private boolean leftToRight;                    //si true alors sens ->, si false <- (recup sens de la route)
-    private int length;                             //taille de la voiture
-    private final Color colorLtR = Color.BLACK;     //couleur: black si ->
-    private final Color colorRtL = Color.BLUE;      //couleur: blue si <-
+    private Case leftPosition;
+    private boolean leftToRight;
+    private int length;
+    private final Color colorLtR = Color.BLACK;
+    private final Color colorRtL = Color.BLUE;
 
 
     //constructeur(s)-------------------------------------------------------
@@ -26,13 +26,6 @@ public class Car {
     }
 
     //méthodes----------------------------------------------------------------
-
-    public Case getLeftPosition(){
-        return this.leftPosition;
-    }
-    public int getLength(){
-        return this.length;
-    }
 
     /**
      * détermine case devant la voiture selon sens de marche
@@ -64,8 +57,7 @@ public class Car {
     public ArrayList<Case> getAllCases() {
         ArrayList<Case> res = new ArrayList<>();
         for(int i = 0; i < length; i++) {
-            Case tmp = leftPosition;
-            res.add(new Case(tmp.x+i, tmp.y));
+            res.add(new Case(leftPosition.x+i, leftPosition.y));
         }
         return res;
     }
@@ -89,6 +81,13 @@ public class Car {
     public Boolean isOut(){
         if(leftToRight) return (leftPosition.x-(length-1) > game.width);
         else return (leftPosition.x+(length-1) < 0);
+    }
+
+    /**
+     * fait suivre le mouvement de la voiture avec celle de sa Lane quand elle descend dans l'écran
+     */
+    public void carDown(){
+        this.leftPosition.y--;
     }
 
 }

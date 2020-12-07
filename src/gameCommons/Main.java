@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import environment.Environment;
-import frog.Frog;
+//import environment.Environment;
+//import frog.Frog;
+import environment.EnvInf;
+import frog.FrogInf;
 import graphicalElements.FroggerGraphic;
 import graphicalElements.IFroggerGraphics;
 
@@ -15,24 +17,24 @@ public class Main {
 	public static void main(String[] args) {
 
 		//Caractéristiques du jeu
-		int width = 26;						//largeur du jeu (x)
-		int height = 20;					//hauteur du jeu (y)
-		int tempo = 150;					//
-		int minSpeedInTimerLoops = 1;		//
-		double defaultDensity = 0.08;		//
+		int width = 26;
+		int height = 20;
+		int tempo = 150;
+		int minSpeedInTimerLoops = 1;
+		double defaultDensity = 0.06;
 
 		//-----------------------------------------------------------------------
-		//Création de l'interface graphique
 		IFroggerGraphics graphic = new FroggerGraphic(width, height);
 
-		//Création de la partie
 		Game game = new Game(graphic, width, height, minSpeedInTimerLoops, defaultDensity);
 
-		IFrog frog = new Frog(game); 				//Création et liaison de la grenouille
+		//IFrog frog = new Frog(game);
+		FrogInf frog = new FrogInf(game);
 		game.setFrog(frog);
 		graphic.setFrog(frog);
 
-		IEnvironment env = new Environment(game); 	//Création et liaison de l'environnement
+		//IEnvironment env = new Environment(game);
+		EnvInf env = new EnvInf(game);
 		game.setEnvironment(env);
 
 		//------------------------------------------------------------------------
@@ -48,4 +50,5 @@ public class Main {
 		timer.setInitialDelay(0);
 		timer.start();
 	}
+
 }
