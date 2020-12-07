@@ -1,0 +1,31 @@
+
+Aurore MARTORANA - groupe 2B					
+
+								RAPPORT - ProjetFrogger
+
+
+J'ai implémenté les parties 1, 2 et 3 seulement, par manque de temps.
+
+Problèmes rencontrés :
+
+	• Initialiser les routes au début du jeu, et obtenir les cases occupées par une voiture (gérer les routes comme un tout dans Environment).
+	--> Solution : 
+	créer un ArrayList de Lane dans les variables de Environment ; et une méthode qui permet d'initialiser aléatoirement les Lanes au début du jeu.
+
+	• Au début du jeu, les voitures commençaient à apparaître hors de l'écran seulement, avec le reste de la route libre. 
+	--> Solution : 
+	créer une méthode dans Lane qui initie des voitures à des x aléatoires dès le début du jeu.
+
+	• Trouver une manière d'enlever voitures qui sortaient de l'écran au fur et à mesure. 
+	Cela causait une "concurrent modification exception" qui faisait planter le programme dès que la première voiture sortait de l'écran.
+	--> Solution : 
+	Après avoir trouvé la cause du problème, j'ai retiré la méthode et déterminé que ce n'était pas essentiel sachant que le temps de jeu est de quelques secondes seulement.
+
+	• Gérer la vitesse des voitures dans les appels de l'update. 
+	--> Solution : 
+	créer une variable de Lane fixé à 0 au début du jeu, qui augmente de 1 modulo speed à chaque appel du update. 
+	Quand cette variable == 0, les voitures de la route avancent (plus la vitesse est grande, moins les voitures avancent vite). 
+
+	• Le score pouvait changer et se superposer les uns sur les autres si on continuait d'avancer après le game over (l'affichage de écran de fin n'empêchait pas de continuer à avancer). 
+	--> Solution : 
+	Une variable booléenne dans Game qui est true si la partie est perdue, qui permet de bloquer les déplacements dans froggerGraphics. 
